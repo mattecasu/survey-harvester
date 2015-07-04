@@ -1,0 +1,70 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<meta charset="utf-8" />
+<link rel="stylesheet" href="resources/css/schede.css"/>
+<link rel="stylesheet" href="resources/css/bootstrap.min.css"/>
+<title>Compilazione Schede</title>
+</head>
+
+<body>
+
+<header>
+<div class="header_content"><h1>Compilazione Schede</h1></div>
+</header>
+
+<ol class="immagini" id="menu_container">
+
+	<li> <!--<a href="scheda_quadrato.html">-->
+		<form id="primo" action="/quadrati" method="get">
+		<img title="scheda quadrato" id="prima_immagine" alt="scheda quadrato" src="resources/images/quadrati.jpg"/>
+    	<a href="/quadrati">Immetti dati</a> o scegli una scheda quadrato:
+    	<select id="ScegliSchedaQuadrato" name="number" >
+    	<option value=''> </option>
+    	<th:block th:each="scheda : ${schedeQuadrato}">
+    		<option th:value="${scheda}" th:text="${scheda}"> </option>
+    	</th:block>
+    	</select>
+		<input form="primo" type="submit" value="Vai"/>
+		</form>
+	</li>
+
+	<li> <!--<a href="scheda_USM.html">-->
+    	<form id="secondo" action="/us" method="get">
+        <img title="scheda US/USM" id="seconda_immagine" alt="scheda US/USM" src="resources/images/usm.jpg"/>
+	    <a href="/us">Immetti dati</a> o scegli una scheda US/USM:
+		<select id="ScegliSchedaUSM" name="ScegliSchedaUSM">
+    	<option value=''> </option>
+    	<th:block th:each="scheda : ${schedeUS}">
+    		<option th:value="${scheda}" th:text="${scheda}"> </option>
+    	</th:block>
+    	</select>
+		<input form="secondo" type="submit" value="Vai"/>
+    	</form>
+	</li>
+	
+	<li><!--<a href="scheda_shovel.html">-->
+    	<form id="terzo" action="./PHP_mySQL/Show/mostra_scheda_shovel.php" method="get">    
+        <img title="scheda Shovel test" id="scheda_shovel" alt="scheda Shovel test" src="resources/images/image3.jpg"/>
+		<a href="scheda_shovel.html">Immetti dati</a> o scegli una scheda Shovel test:
+    	<select id="ScegliSchedaShovel" name="ScegliSchedaShovel" >
+    	<option value=''> </option>
+    	<th:block th:each="scheda : ${schedeShovel}">
+    		<option th:value="${scheda}" th:text="${scheda}"> </option>
+    	</th:block>
+		</select>
+		<input form="terzo" type="submit" value="Vai"/>
+    	</form>
+	</li>
+</ol>
+
+<footer>
+    <p id="firma"> Rastello 2012 </p>
+    <p id="html5_logo"><a href="http://www.w3.org/html/logo/">
+    <img src="resources/images/logo32.png" width="32" height="32"
+    alt="HTML5 Powered with CSS3 / Styling, and Semantics" title="HTML5 Powered with CSS3 / Styling, and Semantics"/>
+    </a></p>
+</footer>
+</body>
+</html>

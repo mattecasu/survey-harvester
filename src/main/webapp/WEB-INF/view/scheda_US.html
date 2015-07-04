@@ -1,0 +1,295 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<script src="resources/js/utilities.js" type="text/javascript"></script>
+
+<head>
+<meta charset="utf-8" />
+<link rel="stylesheet" href="resources/css/schede.css"/>
+<link rel="stylesheet" href="resources/css/bootstrap.min.css"/>
+<title>Scheda US/USM</title>
+</head>
+
+<body>
+
+<header>
+<div class="header_content"><h1>Scheda US/USM</h1></div>
+</header>
+
+<div id="main_container">
+
+<form id="form_scheda_USM" action="/inserisciUS" method="post">
+
+  <fieldset class="field" id="info_scheda_field">
+    <legend>Informazioni Scheda</legend>
+    <ol>
+      <li class="left"><label for="numeroScheda">Numero scheda</label><input id="numeroScheda" name="numeroScheda" type="number" required="" th:value="${scheda} ? ${scheda.numeroScheda}" /></li>
+      <li class="right"><label for="ut">UT</label><input id="ut" name="ut" type="text" onfocus="fill_UT(this.form)" th:value="${scheda} ? ${scheda.ut}"/></li>
+      <li class="left"><label for="data">Data compilazione</label><input id="data" name="data" type="date" placeholder="AAAA-MM-GG" th:value="${scheda} ? ${scheda.data}"/></li>
+      <li class="right"><label for="numeroUS">Numero US/USM</label><input id="numeroUS" name="numeroUS" type="number" th:value="${scheda} ? ${scheda.numeroUS}"/></li>
+      <li class="left"><label for="area">Area</label>
+	  <select id="area" name="area">
+	  <option value="0" th:selected="${scheda}">  </option>
+	  <option value="1" th:selected="${scheda} and ${scheda.area}==1"> Area1 </option>
+	  <option value="2" th:selected="${scheda} and ${scheda.area}==2"> Area2 </option>
+	  <option value="3" th:selected="${scheda} and ${scheda.area}==3"> Area3 </option>
+	  <option value="4" th:selected="${scheda} and ${scheda.area}==4"> Area4 </option>
+	  <option value="5" th:selected="${scheda} and ${scheda.area}==5"> Area5 </option>
+	  <option value="6" th:selected="${scheda} and ${scheda.area}==6"> Area6 </option>
+	  </select>
+      </li>
+      <li class="right"><label for="quadratiString">Num Quad (lista)</label><input id="quadratiString" name="quadratiString" type="text" />
+	<input  type="button" onclick="this.form.quadratiString.value=converti_array(this.form.quadratiString.value,1)" value="converti"/>
+      </li>
+    <li class="left">
+	<fieldset class="radio">
+	<legend> US/USM </legend>
+	  <li><label for="us"> <input type="radio" id="us" name="tipo" value="us" /> US </label></li>
+	  <li><label for="usm"> <input type="radio" id="usm" name="tipo" value="usm" /> USM </label></li>
+	</fieldset>
+    </li>
+    </ol>
+  </fieldset>
+  
+  <fieldset class="field" id="misure_struttura_field">
+    <legend>Misure Struttura</legend>
+    <ol>
+      <li class="left">
+	<label for="lunghezza">Lunghezza</label>
+	<input id="lunghezza" name="lunghezza" type="number" />
+      </li>
+      <li class="right">
+	<label for="altezza">Altezza</label>
+	<input id="altezza" name="altezza" type="number" />
+      </li>
+
+      <li class="left">
+	<label for="spessore">Spessore</label>
+	<input id="spessore" name="spessore" type="number" />
+      </li>
+
+    </ol>
+  </fieldset>
+
+  <fieldset class="field" id="componenti_litiche_field">
+    <legend> Componenti Litiche </legend>
+    <ol>
+      <li class="left">
+        <fieldset class="radio">
+	  <legend> Superficie </legend>
+	  <ol>
+	  <li><label for="regolare"> <input type="radio" id="regolare" name="superficie" value="regolare" /> Regolare </label></li>
+	  <li><label for="irregolare"> <input type="radio" id="irregolare" name="superficie" value="irregolare" /> Irregolare </label></li>
+	  </ol>
+	  	</fieldset>
+	  	</li>
+      <li class="right">
+        <label for="materiale">Materiale</label>
+        <input id="materiale" name="materiale" type="text" />
+      </li>
+      <li class="left">
+        <label for="forma">Forma</label>
+        <select id="forma" name="forma">
+  <option value="" selected="">  </option>
+  <option value="quadrangolare"> Quadrangolare </option>
+  <option value="squadrata"> Squadrata </option>
+  <option value="squadrata_l"> Squadrata a L </option>
+  <option value="poligonale"> Poligonale </option>
+  <option value="tondeggiante"> Tondeggiante </option>
+  <option value="a_scaglie"> A Scaglie </option>
+</select>
+      </li>
+      <li class="right">
+        <label for="tipologia">Tipologia</label>
+        <select id="tipologia" name="tipologia">
+      <option value="">  </option>
+      <option value="pietrame_raccolto"> Pietrame raccolto </option>
+      <option value="pietrame_di_cava"> Pietrame di cava </option>
+      <option value="elementi_a_spacco"> Elementi a spacco </option>
+      <option value="bozze"> Bozze </option>
+      <option value="conci"> Conci </option>
+      <option value="ciottoli_naturali"> Ciottoli naturali </option>
+      <option value="ciottoli_spaccati"> Ciottoli spaccati </option>
+      <option value="ciottoli_sbozzati"> Ciottoli sbozzati </option>
+    </select>
+      </li>
+      <li>
+	<table border="0">
+	  <thead>
+	    <tr>
+	    <th><label></label></th>
+	    <th><label>Minima</label></th>
+	    <th><label>Massima</label></th>
+	    </tr>
+	  </thead>
+	  <tbody>
+	  <tr><td>Lunghezza</td><td><input id="lunghezza_min" name="lunghezzaMinimaComponentiLitiche" type="number"/></td><td><input id="lunghezza_max" name="lunghezzaMassimaComponentiLitiche" type="number" /></td></tr>
+	  <tr><td>Larghezza</td><td><input id="larghezza_min" name="larghezzaMinimaComponentiLitiche" type="number" /></td><td><input id="larghezza_max" name="larghezzaMassimaComponentiLitiche" type="number" /></td></tr>
+	  <tr><td>Profondit&agrave;</td><td><input id="profondita_min" name="profonditaMinimaComponentiLitiche" type="number" /></td><td><input id="profondita_max" name="profonditaMassimaComponentiLitiche" type="number"/></td></tr>
+	    </tbody>
+	</table>
+      </li>
+     
+    </ol>
+    
+  </fieldset>
+  <fieldset class="field" id="messa_in_opera_field"><legend> Messa in Opera Strutture </legend>
+  <ol>
+  <li class="left">
+  <fieldset class="radio"><legend> Tipo di Corso </legend>
+    <ol>
+	<li><label> <input type="checkbox" name="tipoCorso" value="sdoppiato"/> Sdoppiato </label></li>
+	<li><label> <input type="checkbox" name="tipoCorso" value="budinato"/> Budinato </label></li>
+	<li><label> <input type="checkbox" name="tipoCorso" value="regolare"/> Regolare </label></li>
+	<li><label> <input type="checkbox" name="tipoCorso" value="ripianatoOgniXStrati"/> Ripianato ogni x strati </label></li>
+    </ol>
+  </fieldset>
+  </li>  
+  <li class="right">
+    <fieldset class="radio"><legend> Altre </legend>
+    <ul>      
+      <li><label> <input type="checkbox" name="altre" value="zeppe"/> Zeppe </label></li>
+      <li><label> <input type="checkbox" name="altre" value="cantonali"/> Cantonali </label></li>
+      <li><label> <input type="checkbox" name="altre" value="paramento"/> Paramento </label></li>
+      <li><label> <input type="checkbox" name="altre" value="nucleo"/> Nucleo </label></li>
+      <li><label> <input type="checkbox" name="altre" value="doppioParamento"/> Doppio paramento </label></li>
+      <li><label> <input type="checkbox" name="altre" value="scarpa"/> Scarpa </label></li>
+      <li><label> <input type="checkbox" name="altre" value="testaDelMuro"/> Testa del muro </label></li>
+      <li><label> <input type="checkbox" name="altre" value="lenza"/> Lenza </label></li>
+      <li><label> <input type="checkbox" name="altre" value="drenaggio"/> Drenaggio </label></li>
+    </ul>
+  </fieldset>
+  </li>
+  <li class="left"><label for="gradoDiConservazione">Grado di conservazione</label>
+    <select id="gradoDiConservazione" name="gradoDiConservazione">
+      <option value="">  </option>  
+      <option value="buono"> Buono </option>
+      <option value="discreto"> Discreto </option>
+      <option value="sufficiente"> Sufficiente </option>
+      <option value="insufficiente"> Insufficiente </option>
+   </select></li>
+  </ol>
+  </fieldset>
+ 
+ 
+  <fieldset class="field" id="messa_in_opera_strada"><legend>Messa in Opera Strada</legend>
+  <ol>
+    <li class="left">
+      <fieldset class="radio">
+	<legend> Tessitura Acciottolato </legend>
+	<ol>
+	  <li><label for="regolare"> <input type="radio" id="regolare" name="tessituraAcciottolato" value="regolare"/> Regolare </label></li>
+	  <li><label for="irregolare"> <input type="radio" id="irregolare" name="tessituraAcciottolato" value="irregolare"/> Irregolare </label></li>
+	</ol>
+	</fieldset>
+    </li>
+    <li class="right">
+      <fieldset class="radio">
+	<legend> Superficie </legend>
+	  <select id="superficie2" name="superficie2">
+	    <option value="">  </option>  
+	    <option value="ondulata"> Ondulata (interfaccia passaggio veicoli) </option>
+	    <option value="irregolare"> Irregolare </option>
+	    <option value="piana"> Piana </option>
+	    </select>
+	</fieldset>
+    </li>
+    <li class="left">
+      <label for="rocce"> Rocce e ammorsature laterali </label><input id="rocce" name="rocceEAmmorsatureLaterali" type="checkbox" value="true"/>
+    </li>
+    </ol>
+    
+  </fieldset>
+<fieldset class="field" id="rapporti"><legend>Rapporti</legend>
+    <ol>
+      <li class="left"><label for="uguale_a">Uguale a</label><input type="number" name="ugualeAString" id="uguale_a"/></li>
+      
+      <li class="right"><label for="si_lega_a">Si lega a</label><input type="number" name="siLegaAString" id="si_lega_a"/></li>
+      
+      <li class="left"><label for="si_appoggia_a">Si appoggia a</label><input type="number" name="siAppoggiaAString" id="si_appoggia_a"/></li>
+      <li class="right"><label for="gli_si_appoggia">Gli si appoggia</label><input type="number" name="gliSiAppoggiaString" id="gli_si_appoggia"/></li>
+      
+      <li class="left"><label for="copre">Copre</label><input type="number" name="copre" id="copreString"/></li>
+      <li class="right"><label for="coperto_da">Coperto Da</label><input type="number" name="copertoDaString" id="coperto_da"/></li>
+      
+      <li class="left"><label for="taglia">Taglia</label><input type="number" name="taglia" id="tagliaString"/></li>
+      <li class="right"><label for="tagliato_da">Tagliato da</label><input type="number" name="tagliatoDaString" id="tagliato_da"/></li>
+      
+      <li class="left"><label for="riempie">Riempie</label><input type="number" name="riempie" id="riempieString"/></li>
+      <li class="right"><label for="riempito_da">Riempito da</label><input type="number" name="riempitoDaString" id="riempito_da"/></li>    
+    </ol>
+</fieldset>
+  
+<fieldset class="radio"><legend> Definizione </legend>
+  <ol>
+  <li class="left"><label for="Definizione">Definizione</label>
+    <select id="Definizione" name="definizione">
+      <option value="">  </option>  
+      <option value="crollo"> Crollo </option>
+      <option value="apprestamento"> Apprestamento </option>
+      <option value="muro"> Muro </option>
+      <option value="allineamento"> Allineamento </option>
+    </select>
+    </li>
+  <li class="right"><label for="grado_affidabilita">Grado di affidabilit&agrave;</label>
+    <select name="gradoDiAffidabilita" id="grado_affidabilita">
+    <option value=""> </option>
+    <option value="buono"> Buono </option>
+    <option value="discreto"> Discreto </option>
+    <option value="sufficiente"> Sufficiente </option>
+    <option value="insufficiente"> Insufficiente </option>
+    </select>
+    </li>
+    </ol>
+  </fieldset>
+
+  
+  <fieldset><legend>Descrizione</legend>
+  <textarea id="descrizione" type="textarea" name="descrizione" cols="150" rows="4">
+   
+    L'US si trova in prossimità del limite    del quadrato    , ha andamento
+    L'USM si trova lungo il limite .... del quadrato...., ha andamento......
+    Il crollo si estende in direzione N-S per m e in direzione per  m.
+    La struttura, prima della pulizia, era coperta da uno strato di foglie secche marciscenti, terra, erba e radici.
+    L'USM è costituita da pietre di piccola e media pezzatura.
+  </textarea>
+  </fieldset>
+  
+  <fieldset><legend>Osservazioni Ulteriori</legend>
+  <textarea id="osservazioni" type="textarea" name="osservazioni" cols="150" rows="4"></textarea>
+  </fieldset>
+  
+  <fieldset id="interpretazione_field">
+    <legend>Interpretazione</legend>
+    <textarea class="textarea" id="interpretazione" name="Interpretazione" cols="150" rows="4"></textarea>
+
+    </fieldset>
+
+  <fieldset  id="autori_field">
+    <legend>Autori</legend>
+    <ol>
+      <li class="left">
+	<label for="autore1">Autore1</label>
+	<input class="inline_input" id="autore1" name="autore1" type="text" placeholder="Nome Cognome" required="" />
+      </li>
+      <li class="right">
+	<label for="autore2">Autore2</label>
+	<input class="inline_input" id="autore2" name="autore2" type="text" placeholder="Nome Cognome" />
+      </li>
+    </ol>
+  </fieldset> 
+<fieldset class="field" id="button_field">
+<input form="form_scheda_USM" class="bottone" type="reset" />
+<input form="form_scheda_USM" class="bottone" type="submit" />
+</fieldset>
+
+
+
+</form>
+
+</div>
+
+
+</body>
+<footer>
+</footer>
+</html>
