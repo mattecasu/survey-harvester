@@ -1,21 +1,21 @@
 package it.surveyharvester.access;
 
-import static com.hp.hpl.jena.query.QueryExecutionFactory.create;
 import static it.surveyharvester.access.SurveyHarvesterQueryContainer.getSchedeTemplate;
 import static java.util.Arrays.asList;
 import static lombok.AccessLevel.PRIVATE;
-import it.surveyharvester.access.quadrato.SchedaQuadratoRepository;
-import it.surveyharvester.access.shovel.SchedaShovelRepository;
-import it.surveyharvester.access.us.SchedaUSRepository;
 
 import java.util.List;
 
+import org.apache.jena.query.QueryExecutionFactory;
+import org.apache.jena.query.ResultSet;
+import org.apache.jena.rdf.model.Model;
+import org.apache.jena.rdf.model.ModelFactory;
+
+import it.surveyharvester.access.quadrato.SchedaQuadratoRepository;
+import it.surveyharvester.access.shovel.SchedaShovelRepository;
+import it.surveyharvester.access.us.SchedaUSRepository;
 import lombok.Getter;
 import lombok.experimental.FieldDefaults;
-
-import com.hp.hpl.jena.query.ResultSet;
-import com.hp.hpl.jena.rdf.model.Model;
-import com.hp.hpl.jena.rdf.model.ModelFactory;
 
 @FieldDefaults(level = PRIVATE, makeFinal = true)
 public class SurveyHarvesterRepository {
@@ -39,7 +39,7 @@ public class SurveyHarvesterRepository {
 
     private List<Integer> getSchedaNumber(String queryString) {
         List<Integer> numbersList = asList();
-        ResultSet rs = create(queryString, rdfModel).execSelect();
+        ResultSet rs = QueryExecutionFactory.create(queryString, rdfModel).execSelect();
         rs.forEachRemaining(solution -> numbersList.add(solution.getLiteral("schedaNumber").getInt()));
         return numbersList;
     }

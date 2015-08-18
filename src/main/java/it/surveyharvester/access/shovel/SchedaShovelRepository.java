@@ -1,10 +1,10 @@
 package it.surveyharvester.access.shovel;
 
-import static com.hp.hpl.jena.update.UpdateAction.parseExecute;
+import org.apache.jena.rdf.model.Model;
+
 import it.surveyharvester.model.SchedaQuadrato;
 import it.surveyharvester.model.SchedaShovel;
 
-import com.hp.hpl.jena.rdf.model.Model;
 
 public class SchedaShovelRepository {
 
@@ -13,9 +13,10 @@ public class SchedaShovelRepository {
     public SchedaShovelRepository(final Model rdfModel) {
         this.rdfModel = rdfModel;
     }
-    
+
     public void deleteSchedaQuadrato(SchedaShovel schedaShovel) {
-//        parseExecute(deleteSchedaShovel.replace("<numeroScheda>", schedaShovel.getNumeroScheda().toString()), rdfModel);
+        // UpdateAction.parseExecute(deleteSchedaShovel.replace("<numeroScheda>",
+        // schedaShovel.getNumeroScheda().toString()), rdfModel);
     }
 
     public void insertSchedaQuadrato(SchedaQuadrato schedaQuadrato) {

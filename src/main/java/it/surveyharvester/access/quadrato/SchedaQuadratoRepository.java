@@ -1,8 +1,5 @@
 package it.surveyharvester.access.quadrato;
 
-import static com.google.common.collect.Lists.newArrayList;
-import static com.hp.hpl.jena.query.QueryExecutionFactory.create;
-import static com.hp.hpl.jena.update.UpdateAction.parseExecute;
 import static it.surveyharvester.access.SurveyHarvesterQueryContainer.surveyNs;
 import static it.surveyharvester.access.quadrato.SchedaQuadratoQueryContainer.deleteSchedaQuadrato;
 import static it.surveyharvester.access.quadrato.SchedaQuadratoQueryContainer.getSchedaQuadratoRepository;
@@ -13,16 +10,21 @@ import static it.surveyharvester.utils.Utilities.getString;
 import static it.surveyharvester.utils.Utilities.getStrings;
 import static it.surveyharvester.utils.Utilities.res;
 import static java.util.stream.Collectors.joining;
-import it.surveyharvester.model.SchedaQuadrato;
-import it.surveyharvester.viewmodel.SchedaQuadratoAggregate;
 
 import java.util.List;
 
-import com.hp.hpl.jena.query.QueryExecution;
-import com.hp.hpl.jena.query.QueryExecutionFactory;
-import com.hp.hpl.jena.rdf.model.Model;
-import com.hp.hpl.jena.rdf.model.Resource;
-import com.hp.hpl.jena.vocabulary.RDF;
+import org.apache.jena.query.QueryExecution;
+import org.apache.jena.query.QueryExecutionFactory;
+import org.apache.jena.rdf.model.Model;
+import org.apache.jena.rdf.model.Resource;
+import org.apache.jena.update.UpdateAction;
+import org.apache.jena.vocabulary.RDF;
+
+import com.google.common.collect.Lists;
+
+import it.surveyharvester.model.SchedaQuadrato;
+import it.surveyharvester.viewmodel.SchedaQuadratoAggregate;
+
 
 public class SchedaQuadratoRepository {
 
@@ -33,7 +35,7 @@ public class SchedaQuadratoRepository {
     }
 
     public void deleteSchedaQuadrato(SchedaQuadrato schedaQuadrato) {
-        parseExecute(deleteSchedaQuadrato.replace("<numeroScheda>", schedaQuadrato.getNumeroScheda().toString()), rdfModel);
+        UpdateAction.parseExecute(deleteSchedaQuadrato.replace("<numeroScheda>", schedaQuadrato.getNumeroScheda().toString()), rdfModel);
     }
 
     public void insertSchedaQuadrato(SchedaQuadrato schedaQuadrato) {
@@ -42,19 +44,18 @@ public class SchedaQuadratoRepository {
 
     public SchedaQuadratoAggregate getSchedaQuadratoAggregate(String number) {
 
-        QueryExecution query = create(getSchedaQuadratoRepository.replace("<numero>", number), rdfModel);
+        QueryExecution query = QueryExecutionFactory.create(getSchedaQuadratoRepository.replace("<numero>", number), rdfModel);
         Model schedaModel = query.execConstruct();
 
         Resource schedaQuadrato = schedaModel.listSubjectsWithProperty(RDF.type, res(schedaModel, surveyNs + "SchedaQuadrato")).nextResource();
         Resource quadrato = schedaModel.listSubjectsWithProperty(RDF.type, res(schedaModel, surveyNs + "Quadrato")).nextResource();
 
-        List<Resource> puntiBattuti = newArrayList();
+        List<Resource> puntiBattuti = Lists.newArrayList();
         QueryExecutionFactory.create(puntiBattutiQuery, schedaModel)
                 .execSelect()
                 .forEachRemaining(x -> {
                     puntiBattuti.add(x.getResource("p"));
-                }
-                );
+                });
 
         // scheda quadrato
         SchedaQuadratoAggregate schedaAggregate = (SchedaQuadratoAggregate) new SchedaQuadratoAggregate()
@@ -92,20 +93,17 @@ public class SchedaQuadratoRepository {
                 puntiBattuti
                         .stream()
                         .map(x -> getString(x, surveyNs + "identificatorePicchetto").orElseGet(null))
-                        .collect(joining(", "))
-                );
+                        .collect(joining(", ")));
         schedaAggregate.setLatitudiniString(
                 puntiBattuti
                         .stream()
                         .map(x -> getString(x, surveyNs + "latitudine").orElseGet(null))
-                        .collect(joining(", "))
-                );
+                        .collect(joining(", ")));
         schedaAggregate.setLongitudiniString(
                 puntiBattuti
                         .stream()
                         .map(x -> getString(x, surveyNs + "longitudine").orElseGet(null))
-                        .collect(joining(", "))
-                );
+                        .collect(joining(", ")));
 
         return schedaAggregate;
     }

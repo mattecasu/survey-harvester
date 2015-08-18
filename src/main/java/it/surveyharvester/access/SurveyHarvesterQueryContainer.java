@@ -4,10 +4,11 @@ import static lombok.AccessLevel.PUBLIC;
 
 import java.util.StringJoiner;
 
+import org.apache.jena.vocabulary.RDF;
+import org.apache.jena.vocabulary.RDFS;
+
 import lombok.experimental.FieldDefaults;
 
-import com.hp.hpl.jena.vocabulary.RDF;
-import com.hp.hpl.jena.vocabulary.RDFS;
 
 @FieldDefaults(level = PUBLIC, makeFinal = true)
 public class SurveyHarvesterQueryContainer {

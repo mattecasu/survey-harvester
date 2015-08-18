@@ -1,16 +1,15 @@
 package it.surveyharvester.model;
 
-import it.surveyharvester.model.interfaces.SurveyHarvesterObject;
-
 import java.util.List;
 
+import org.apache.jena.rdf.model.Model;
+
+import it.surveyharvester.model.interfaces.SurveyHarvesterObject;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 import lombok.experimental.FieldDefaults;
-
-import com.hp.hpl.jena.rdf.model.Model;
 
 @Accessors(chain = true)
 @Getter
@@ -94,8 +93,7 @@ public class US implements SurveyHarvesterObject {
             List<String> taglia,
             List<String> tagliatoDa,
             List<String> riempie,
-            List<String> riempitoDa
-            ) {
+            List<String> riempitoDa) {
         return (US) this
                 .setAltezza(altezza)
                 .setAltre(altre)

@@ -3,20 +3,19 @@ package it.surveyharvester.model;
 import static it.surveyharvester.access.SurveyHarvesterQueryContainer.harvesterRastello;
 import static it.surveyharvester.access.SurveyHarvesterQueryContainer.surveyNs;
 import static lombok.AccessLevel.PRIVATE;
-import it.surveyharvester.model.interfaces.SurveyHarvesterObject;
 
 import java.time.LocalTime;
 
-import lombok.AccessLevel;
+import org.apache.jena.datatypes.xsd.XSDDatatype;
+import org.apache.jena.rdf.model.Model;
+import org.apache.jena.rdf.model.ModelFactory;
+import org.apache.jena.rdf.model.Resource;
+
+import it.surveyharvester.model.interfaces.SurveyHarvesterObject;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 import lombok.experimental.FieldDefaults;
-
-import com.hp.hpl.jena.datatypes.xsd.XSDDatatype;
-import com.hp.hpl.jena.rdf.model.Model;
-import com.hp.hpl.jena.rdf.model.ModelFactory;
-import com.hp.hpl.jena.rdf.model.Resource;
 
 @Accessors(chain = true)
 @Getter
@@ -44,8 +43,7 @@ public class SchedaQuadrato extends Scheda implements SurveyHarvesterObject {
             String descrizione,
             String osservazioni,
             String autore1,
-            String autore2
-            ) {
+            String autore2) {
         return (SchedaQuadrato) this
                 .setOraInizio(oraInizio)
                 .setOraFine(oraFine)

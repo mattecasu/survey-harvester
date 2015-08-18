@@ -1,8 +1,8 @@
 package it.surveyharvester.model;
 
-import it.surveyharvester.model.interfaces.SurveyHarvesterObject;
+import org.apache.jena.rdf.model.Model;
 
-import com.hp.hpl.jena.rdf.model.Model;
+import it.surveyharvester.model.interfaces.SurveyHarvesterObject;
 
 public class SchedaShovel extends Scheda  implements SurveyHarvesterObject {
 

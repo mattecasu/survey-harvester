@@ -26,7 +26,7 @@
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-webmvc</artifactId>
-			<version>4.1.7.RELEASE</version>
+			<version>4.2.0.RELEASE</version>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
@@ -53,14 +53,14 @@
 		<dependency>
 			<groupId>com.google.guava</groupId>
 			<artifactId>guava</artifactId>
-			<version>18.0</version>
+			<version>19.0-rc1</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.apache.jena</groupId>
 			<artifactId>apache-jena-libs</artifactId>
 			<type>pom</type>
-			<version>2.13.0</version>
+			<version>3.0.0</version>
 		</dependency>
 
 		<dependency>
@@ -141,7 +141,7 @@
 			<plugin>
 				<groupId>org.eclipse.jetty</groupId>
 				<artifactId>jetty-maven-plugin</artifactId>
-				<version>9.2.8.v20150217</version>
+				<version>9.3.2.v20150730</version>
 			</plugin>
 
 			<plugin>

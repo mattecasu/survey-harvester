@@ -1,10 +1,11 @@
 package it.surveyharvester.access.us;
 
-import static com.hp.hpl.jena.update.UpdateAction.parseExecute;
+import org.apache.jena.rdf.model.Model;
+import org.apache.jena.update.UpdateAction;
+
 import it.surveyharvester.model.SchedaUS;
 import it.surveyharvester.viewmodel.SchedaUSAggregate;
 
-import com.hp.hpl.jena.rdf.model.Model;
 
 public class SchedaUSRepository {
 
@@ -15,7 +16,7 @@ public class SchedaUSRepository {
     }
 
     public void deleteSchedaQuadrato(SchedaUSAggregate schedaUS) {
-        parseExecute(SchedaUSQueryContainer.deleteSchedaUS.replace("<numeroScheda>", schedaUS.getNumeroScheda().toString()), rdfModel);
+        UpdateAction.parseExecute(SchedaUSQueryContainer.deleteSchedaUS.replace("<numeroScheda>", schedaUS.getNumeroScheda().toString()), rdfModel);
     }
 
     public void insertSchedaUS(SchedaUS schedaUS) {
